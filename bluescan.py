@@ -35,7 +35,7 @@ if __name__ == '__main__':
         print (f"    Attempting to connect . . .")
         peripheral = None
         try:
-            peripheral = Peripheral(deviceAddress=dev)
+            peripheral = Peripheral(dev)
             print( f"    ... connected.")
 #            service = peripheral.getServiceByUUID(0xd001)
 #            print( f"    Service UUID = {service.uuid} FOUND" )
