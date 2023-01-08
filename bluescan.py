@@ -33,17 +33,24 @@ if __name__ == '__main__':
         for (adtype, desc, value) in dev.getScanData():
             print( f"  {desc} = {value} ({adtype})")
         print (f"    Attempting to connect . . .")
+        peripheral = None
         try:
             peripheral = Peripheral(dev.addr)
-            services = peripheral.getServices()
-            for service in services:
-                print(f"    Service UUID = {service.uuid}")
-            characteristics = peripheral.getCharacteristics()
-            for characteristic in characteristics:
-                print(f"    Characteristic handle {characteristic.getHandle()} has properties {characteristic.propertiesToString()}")
+            service = peripheral.getServiceByUUID(0xd001)
+            print( f"    Service UUID = {service.uuid} FOUND" )
+            if False:
+                services = peripheral.getServices()
+                for service in services:
+                    print(f"    Service UUID = {service.uuid}")
+                characteristics = peripheral.getCharacteristics()
+                for characteristic in characteristics:
+                    print(f"    Characteristic handle {characteristic.getHandle()} has properties {characteristic.propertiesToString()}")
             # service = peripheral.getServiceByUUID( 0xd001 )
             # handles = service.getCharacteristics()
+            peripheral.disconnect()
         except Exception as e:
+            if peripheral:
+                peripheral.disconnect()
             print(f"Connection failed with {e}")
 
 
