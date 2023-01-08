@@ -1,5 +1,5 @@
 
-from bluepy.btle import Peripheral, Scanner, DefaultDelegate, ADDR_TYPE_RANDOM
+from bluepy.btle import Peripheral, Scanner, DefaultDelegate, BTLEException
 
 class BlueDelegate ( DefaultDelegate ):
 
@@ -32,18 +32,22 @@ if __name__ == '__main__':
         print( f"Device {dev.addr} ({dev.addrType}), RSSI={dev.rssi} dB, connectable={dev.connectable}, updateCount={dev.updateCount}")
         for (adtype, desc, value) in dev.getScanData():
             print( f"  {desc} = {value} ({adtype})")
-        print (f"    Attempting to connect . . .")
+        print (f"  Attempting to connect . . .")
         peripheral = None
         try:
             peripheral = Peripheral(dev)
-            print( f"    ... connected.")
-            if True:
-                services = peripheral.getServices()
-                for service in services:
-                    print(f"    Service UUID = {service.uuid}")
-                characteristics = peripheral.getCharacteristics()
-                for characteristic in characteristics:
-                    print(f"    Characteristic handle {characteristic.getHandle()} = UUID {characteristic.uuid} has properties {characteristic.propertiesToString()}")
+            print( f"  ... connected.")
+            services = peripheral.getServices()
+            for service in services:
+                print(f"  {str(service)}:")
+                print(f"    Service UUID = {service.uuid}")
+                for characteristic in service.getCharacteristics():
+                    print(f"    {characteristic}, uuid={characteristic.uuid}, hnd={hex(characteristic.getHandle())}, supports {characteristic.propertiesToString()}")
+                    if characteristic.supportsRead():
+                        try:
+                            print(f"      -> {repr(characteristic.read())}")
+                        except BTLEException as e:
+                            print(f"      -> {e}")
             print(f"Getting service by ID 0xd001")
             service = peripheral.getServiceByUUID(0xd001)
             print( f"    Service UUID = {service.uuid} FOUND" )
