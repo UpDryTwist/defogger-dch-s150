@@ -29,7 +29,7 @@ if __name__ == '__main__':
     scanner = BlueScan(0)
     devices = scanner.scan(10)
     for dev in devices:
-        print( f"Device {dev.addr} ({dev.addrType}), RSSI={dev.rssi} dB")
+        print( f"Device {dev.addr} ({dev.addrType}), RSSI={dev.rssi} dB, connectable={dev.connectable}, updateCount={dev.updateCount}")
         for (adtype, desc, value) in dev.getScanData():
             print( f"  {desc} = {value} ({adtype})")
         print (f"    Attempting to connect . . .")
@@ -37,17 +37,16 @@ if __name__ == '__main__':
         try:
             peripheral = Peripheral(dev)
             print( f"    ... connected.")
-#            service = peripheral.getServiceByUUID(0xd001)
-#            print( f"    Service UUID = {service.uuid} FOUND" )
             if True:
                 services = peripheral.getServices()
                 for service in services:
                     print(f"    Service UUID = {service.uuid}")
                 characteristics = peripheral.getCharacteristics()
                 for characteristic in characteristics:
-                    print(f"    Characteristic handle {characteristic.getHandle()} has properties {characteristic.propertiesToString()}")
-            # service = peripheral.getServiceByUUID( 0xd001 )
-            # handles = service.getCharacteristics()
+                    print(f"    Characteristic handle {characteristic.getHandle()} = UUID {characteristic.uuid} has properties {characteristic.propertiesToString()}")
+            print(f"Getting service by ID 0xd001")
+            service = peripheral.getServiceByUUID(0xd001)
+            print( f"    Service UUID = {service.uuid} FOUND" )
             peripheral.disconnect()
         except Exception as e:
             if peripheral:
