@@ -1,5 +1,5 @@
 
-from bluepy.btle import Peripheral, Scanner, DefaultDelegate
+from bluepy.btle import Peripheral, Scanner, DefaultDelegate, ADDR_TYPE_RANDOM
 
 class BlueDelegate ( DefaultDelegate ):
 
@@ -35,7 +35,8 @@ if __name__ == '__main__':
         print (f"    Attempting to connect . . .")
         peripheral = None
         try:
-            peripheral = Peripheral(dev.addr)
+            peripheral = Peripheral(dev.addr, addressType=dev.addrType )
+            print( f"    ... connected.")
             service = peripheral.getServiceByUUID(0xd001)
             print( f"    Service UUID = {service.uuid} FOUND" )
             if False:
