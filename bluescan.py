@@ -37,9 +37,9 @@ if __name__ == '__main__':
         try:
             peripheral = Peripheral(deviceAddress=dev)
             print( f"    ... connected.")
-            service = peripheral.getServiceByUUID(0xd001)
-            print( f"    Service UUID = {service.uuid} FOUND" )
-            if False:
+#            service = peripheral.getServiceByUUID(0xd001)
+#            print( f"    Service UUID = {service.uuid} FOUND" )
+            if True:
                 services = peripheral.getServices()
                 for service in services:
                     print(f"    Service UUID = {service.uuid}")
