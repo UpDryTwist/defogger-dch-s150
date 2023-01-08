@@ -35,7 +35,7 @@ class BleCam(object):
             print("Verifying IPCam service")
             self.service = self.periph.getServiceByUUID(0xd001)
             self.handles = self.service.getCharacteristics()
-        except BTLEEException:
+        except BTLEException:
             print("no IPCam service found for %s" % periph.address)
 
     def dumpchars(self):
