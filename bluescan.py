@@ -2,6 +2,10 @@
 from bluepy.btle import Peripheral, Scanner, DefaultDelegate, BTLEException
 import argparse
 
+# Note:  I never got anywhere with this (other than a useful view of my local BT traffic!)
+#        And that's not surprising:  while it was alive, couldn't use the D-LINK app to
+#        connect through BT, either - always had to connect to the AP
+
 class BlueDelegate ( DefaultDelegate ):
 
     def __init__ ( self ):
